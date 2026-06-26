@@ -1,237 +1,262 @@
-<!doctype html>
-<html lang="zh-Hant-TW">
+<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>初級大人指南書｜互動電子書</title>
-<meta name="description" content="初級大人指南書：生活技能、租屋權益與防禦指南。" />
-<style>
-:root {
-  --bg:#f4ead6; --bg2:#fff8ea; --ink:#2e2118; --muted:#826f5f; --card:#fffaf0; --line:#d8c7aa;
-  --accent:#c77b3e; --accent2:#e9b05d; --accent3:#8f7b64; --danger:#a74437; --shadow:0 22px 60px rgba(46,33,24,.16);
-  --radius:32px; --max:1180px;
-}
-[data-theme="dark"] {
-  --bg:#1c1713; --bg2:#292118; --ink:#fff2dc; --muted:#d4bda3; --card:#2f251b; --line:#604c39;
-  --accent:#f2b16e; --accent2:#d18b4d; --accent3:#b99d7e; --danger:#ff9d84; --shadow:0 22px 60px rgba(0,0,0,.38);
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(circle at 15% 16%,rgba(255,126,88,.24),transparent 18rem),radial-gradient(circle at 93% 18%,rgba(151,168,120,.22),transparent 18rem),linear-gradient(135deg,var(--bg),var(--bg2));color:var(--ink);font-family:"Noto Serif TC","Noto Sans TC","PingFang TC","Microsoft JhengHei",serif;line-height:1.78;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.33;background-image:linear-gradient(90deg,rgba(255,255,255,.18) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.14) 1px,transparent 1px);background-size:78px 78px;mask-image:linear-gradient(to bottom,#000,transparent 85%);z-index:-2}
-.blob{position:fixed;border-radius:999px;filter:blur(5px);opacity:.34;z-index:-1;animation:float 11s ease-in-out infinite alternate}
-.b1{width:260px;height:260px;background:#ffb48b;left:6%;top:11%} .b2{width:330px;height:330px;background:#ced4a4;right:6%;top:14%;animation-delay:1s} .b3{width:190px;height:190px;background:#dfb16b;right:28%;bottom:10%;animation-delay:2s}
-@keyframes float{from{transform:translate3d(0,0,0) scale(.98)}to{transform:translate3d(26px,38px,0) scale(1.08)}}
-.cursor{position:fixed;width:26px;height:26px;border:1px solid var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:.08s ease;mix-blend-mode:multiply}
-a{color:inherit;text-decoration:none}
-.nav{position:sticky;top:18px;z-index:20;width:min(var(--max),calc(100% - 32px));margin:18px auto 0;padding:14px 18px;background:rgba(255,250,240,.76);border:1px solid rgba(255,255,255,.65);box-shadow:var(--shadow);border-radius:999px;backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:space-between;gap:14px}
-[data-theme="dark"] .nav{background:rgba(41,33,24,.78)}
-.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.05em}
-.logo{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;font-weight:900}
-.links{display:flex;gap:18px;align-items:center;font-weight:800}
-.links a,.theme,.menuBtn{border:0;background:transparent;color:var(--ink);font:inherit;font-weight:900;cursor:pointer;padding:8px 9px;border-radius:18px}
-.links a:hover,.theme:hover{background:rgba(199,123,62,.12)}
-.menuBtn{display:none}
-.hero{min-height:calc(100vh - 86px);width:min(var(--max),calc(100% - 32px));margin:0 auto;display:grid;grid-template-columns:1.02fr .98fr;align-items:center;gap:42px;padding:72px 0 88px}
-.kicker{display:inline-flex;gap:10px;align-items:center;background:rgba(255,255,255,.48);border:1px solid var(--line);padding:10px 16px;border-radius:999px;color:var(--muted);font-weight:900}
-.title{font-size:clamp(3rem,8vw,7.7rem);line-height:1.02;margin:24px 0 20px;letter-spacing:.02em;font-weight:950;text-shadow:0 8px 0 rgba(255,255,255,.28)}
-.type{font-size:clamp(1.2rem,2.2vw,2rem);color:var(--accent);font-weight:900;min-height:2.8em}
-.lead{font-size:clamp(1.05rem,1.6vw,1.35rem);color:var(--muted);max-width:720px;margin:20px 0 0}
-.ctaRow{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
-.btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:999px;padding:16px 24px;font-weight:950;background:var(--card);box-shadow:0 13px 28px rgba(46,33,24,.12);cursor:pointer}
-.btn.primary{background:var(--ink);color:var(--bg2);border-color:var(--ink)}
-.bookMock{position:relative;min-height:520px;display:grid;place-items:center;perspective:1300px}
-.book{width:min(420px,76vw);height:560px;border-radius:22px 34px 34px 22px;background:linear-gradient(135deg,#fff9ec,#f6dfbd 74%,#d79b61);box-shadow:var(--shadow);transform:rotateY(-18deg) rotateX(4deg);position:relative;padding:42px;border:1px solid rgba(70,48,33,.16);animation:bookIn 1.2s ease both}
-@keyframes bookIn{from{opacity:0;transform:rotateY(-42deg) translateY(40px)}to{opacity:1;transform:rotateY(-18deg) rotateX(4deg)}}
-.book::before{content:"";position:absolute;left:-20px;top:18px;bottom:18px;width:28px;border-radius:18px 0 0 18px;background:linear-gradient(#ead4b1,#b88653)}
-.book h2{font-size:3.4rem;line-height:1.15;margin:0;color:#3f2215}
-.book p{position:absolute;bottom:38px;left:42px;right:42px;font-weight:900;color:#66432c}
-.sticker{position:absolute;border-radius:22px;padding:14px 18px;background:rgba(255,255,255,.7);border:1px solid var(--line);font-weight:900;box-shadow:var(--shadow);animation:float 5s ease-in-out infinite alternate}
-.s1{left:0;top:85px} .s2{right:0;bottom:80px;animation-delay:.8s} .s3{right:8%;top:30px;animation-delay:1.4s}
-.section{width:min(var(--max),calc(100% - 32px));margin:0 auto;padding:88px 0}
-.sectionTitle{font-size:clamp(2rem,4.8vw,4.8rem);line-height:1.12;margin:0 0 18px;font-weight:950}
-.sub{font-size:1.15rem;color:var(--muted);max-width:760px;margin:0 0 34px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.card{background:rgba(255,250,240,.76);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);transition:.28s ease;min-height:200px}
-.card:hover{transform:translateY(-7px) rotate(.3deg)}
-.card h3{font-size:1.65rem;margin:0 0 10px}
-.card .icon{font-size:2.2rem}
-.reveal{opacity:1;transform:none}
-.js .reveal{opacity:1;transform:none;transition:.8s ease}
-.js .reveal.in{opacity:1;transform:none}
-.timeline{position:relative;display:grid;gap:18px;margin-top:24px}
-.timeline::before{content:"";position:absolute;left:22px;top:0;bottom:0;width:2px;background:linear-gradient(var(--accent),transparent)}
-.step{margin-left:58px;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:18px 22px;box-shadow:var(--shadow);position:relative}
-.step::before{content:attr(data-step);position:absolute;left:-55px;top:18px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-weight:900}
-.skills{display:grid;gap:18px}
-.skill{background:var(--card);padding:18px;border-radius:20px;border:1px solid var(--line)}
-.skill b{display:flex;justify-content:space-between;margin-bottom:8px}
-.bar{height:12px;background:rgba(126,99,69,.15);border-radius:999px;overflow:hidden}
-.fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:999px;transition:1.2s ease}
-.reader{background:rgba(255,250,240,.58);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:86px 0}
-.readerShell{width:min(1240px,calc(100% - 32px));margin:0 auto}
-.readerTop{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:22px}
-.readerControls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.select,input.search{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:12px 14px;color:var(--ink);font:inherit;font-weight:800;min-width:180px}
-.search{min-width:260px}
-.pageCard{display:grid;grid-template-columns:310px 1fr;gap:24px;min-height:560px;background:var(--card);border:1px solid var(--line);border-radius:38px;padding:28px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.pageCard::after{content:"";position:absolute;right:-120px;bottom:-140px;width:330px;height:330px;border-radius:50%;background:rgba(199,123,62,.08)}
-.pageMeta{border-right:1px solid var(--line);padding-right:24px;position:relative;z-index:1}
-.pageNo{display:inline-grid;place-items:center;width:72px;height:72px;border-radius:28px;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;font-size:1.7rem;font-weight:950;margin-bottom:18px}
-.pageMeta h3{font-size:1.85rem;line-height:1.25;margin:0 0 18px}
-.badge{display:inline-flex;margin:4px 0 10px;padding:8px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted);font-weight:900}
-.pageText{position:relative;z-index:1;font-size:var(--reader-font,1.18rem);white-space:normal}
-.pageText p{margin:.4em 0 1.05em}
-.pageText .line{display:block;margin:.28em 0}
-.pageText .em{font-weight:950;color:var(--danger)}
-.navPages{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
-.progress{height:10px;background:rgba(126,99,69,.18);border-radius:999px;overflow:hidden;margin-top:18px}
-.progress > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:999px;transition:.4s}
-.searchResults{margin-top:14px;color:var(--muted);font-weight:800}
-.contact{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.form{display:grid;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
-.form input,.form textarea{width:100%;border:1px solid var(--line);background:rgba(255,255,255,.38);color:var(--ink);border-radius:18px;padding:14px 16px;font:inherit}
-.form textarea{min-height:150px}
-.footer{padding:40px 16px;text-align:center;color:var(--muted)}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);opacity:0;background:var(--ink);color:var(--bg2);border-radius:999px;padding:12px 18px;font-weight:900;z-index:99;transition:.25s}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media (max-width:900px){
- .links{display:none} .menuBtn{display:inline-flex} .nav.open .links{display:flex;position:absolute;top:64px;left:0;right:0;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:16px;box-shadow:var(--shadow)}
- .hero{grid-template-columns:1fr;padding-top:44px} .bookMock{min-height:420px} .book{height:440px;padding:30px} .book h2{font-size:2.4rem}
- .grid,.contact{grid-template-columns:1fr} .pageCard{grid-template-columns:1fr;padding:20px;border-radius:28px} .pageMeta{border-right:0;border-bottom:1px solid var(--line);padding-right:0;padding-bottom:18px}
- .section{padding:62px 0} .title{font-size:clamp(3rem,18vw,5rem)} .cursor{display:none}
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>初級大人指南書｜互動電子書</title>
+  <meta name="description" content="初級大人指南書互動電子書網站：租屋權益與防禦指南，可翻頁、搜尋、書籤、深淺色模式，適合 GitHub Pages 部署。" />
+  <style>
+    :root{
+      --bg:#f2e4cf;
+      --paper:#fffaf1;
+      --paper2:#fff6e6;
+      --ink:#2f2017;
+      --muted:#7c6a56;
+      --accent:#c77b3b;
+      --accent2:#e2b66f;
+      --accent3:#8f6a45;
+      --line:rgba(47,32,23,.18);
+      --shadow:0 24px 80px rgba(74,48,24,.18);
+      --radius:30px;
+      --glass:rgba(255,250,241,.72);
+      --max:1180px;
+    }
+    [data-theme="dark"]{
+      --bg:#191411;
+      --paper:#2a211b;
+      --paper2:#211915;
+      --ink:#f8ead8;
+      --muted:#d2bfa8;
+      --accent:#f1a65a;
+      --accent2:#d3a15e;
+      --accent3:#f4c786;
+      --line:rgba(255,238,210,.18);
+      --shadow:0 24px 80px rgba(0,0,0,.45);
+      --glass:rgba(42,33,27,.74);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255,185,113,.34), transparent 28%),
+        radial-gradient(circle at 84% 10%, rgba(165,176,126,.28), transparent 28%),
+        linear-gradient(135deg,var(--bg),#fff4e4 45%,var(--bg));
+      font-family:"Noto Serif TC","Songti TC","PingFang TC","Microsoft JhengHei",serif;
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    button,input,textarea,select{font:inherit}
+    .noise{position:fixed;inset:0;pointer-events:none;opacity:.22;z-index:-1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E")}
+    .cursor,.cursor-dot{position:fixed;border-radius:999px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none}
+    .cursor{width:44px;height:44px;border:1px solid rgba(199,123,59,.55);box-shadow:0 0 26px rgba(199,123,59,.25);transition:width .18s,height .18s,border .18s;background:rgba(199,123,59,.06)}
+    .cursor-dot{width:7px;height:7px;background:var(--accent)}
+    @media (pointer:fine){.cursor,.cursor-dot{display:block} body{cursor:none} a,button,.reader-page{cursor:none}}
+    nav{
+      position:fixed;left:50%;top:18px;transform:translateX(-50%);
+      width:min(calc(100% - 32px),1080px);height:64px;
+      display:flex;align-items:center;justify-content:space-between;gap:18px;
+      padding:0 18px 0 24px;border:1px solid var(--line);border-radius:999px;
+      background:var(--glass);backdrop-filter:blur(18px);box-shadow:0 10px 38px rgba(65,43,21,.09);z-index:1000;
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.08em;white-space:nowrap}
+    .logo{width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:#fff;box-shadow:0 10px 22px rgba(199,123,59,.28)}
+    .navlinks{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .navlinks a,.mode-btn{padding:10px 14px;border-radius:999px;color:var(--muted);font-size:.95rem;border:1px solid transparent;background:transparent}
+    .navlinks a:hover,.mode-btn:hover{background:rgba(199,123,59,.13);color:var(--ink);border-color:var(--line)}
+    .mode-btn{cursor:pointer;color:var(--ink)}
+    @media(max-width:760px){nav{height:auto;min-height:62px;border-radius:24px;align-items:flex-start;padding:12px 14px;flex-direction:column}.navlinks{justify-content:flex-start}.navlinks a{font-size:.86rem;padding:7px 9px}.mode-btn{position:absolute;right:12px;top:10px}}
+    .section{width:min(calc(100% - 42px),var(--max));margin:0 auto;padding:96px 0}
+    .hero{min-height:100vh;display:grid;place-items:center;position:relative;overflow:hidden;padding-top:90px}
+    .hero-grid{width:min(calc(100% - 42px),var(--max));display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;position:relative;z-index:2}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;padding:11px 16px;border:1px solid var(--line);border-radius:999px;background:var(--glass);color:var(--muted);box-shadow:0 12px 32px rgba(80,52,25,.08);margin-bottom:20px}
+    .hero h1{font-size:clamp(4rem,9.4vw,8.8rem);line-height:.95;margin:0;letter-spacing:-.06em;font-weight:950}
+    .hero h1 .small{display:block;font-size:clamp(2.2rem,5vw,5.8rem);letter-spacing:.05em;margin-top:8px;color:var(--accent)}
+    .type-line{font-size:clamp(1.2rem,2.2vw,2.2rem);color:var(--muted);min-height:2.5em;margin:26px 0 20px;font-weight:800}
+    .hero p{font-size:1.18rem;line-height:2;color:var(--muted);max-width:680px;font-weight:700}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+    .btn{border:0;border-radius:999px;padding:15px 24px;background:var(--ink);color:var(--paper);box-shadow:0 18px 42px rgba(47,32,23,.22);font-weight:900;letter-spacing:.04em;cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:.25s ease}
+    .btn:hover{transform:translateY(-4px);box-shadow:0 22px 54px rgba(47,32,23,.28)}
+    .btn.ghost{background:var(--glass);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+    .hero-book{position:relative;min-height:520px;display:grid;place-items:center;perspective:1200px}
+    .book-card{width:min(410px,90vw);height:560px;border-radius:28px;background:linear-gradient(145deg,#fff6e8,#e8c796);box-shadow:var(--shadow);padding:34px;position:relative;transform:rotateY(-14deg) rotateX(4deg);transform-style:preserve-3d;animation:floatBook 5s ease-in-out infinite;border:1px solid rgba(255,255,255,.5)}
+    .book-card:before{content:"";position:absolute;inset:0 auto 0 0;width:28px;border-radius:28px 0 0 28px;background:linear-gradient(180deg,rgba(87,56,33,.25),rgba(255,255,255,.18),rgba(87,56,33,.18))}
+    .book-title{font-size:3.2rem;font-weight:950;line-height:1.1;margin:64px 0 20px;color:#5b2d18;letter-spacing:.08em}
+    .book-sub{font-size:1.45rem;font-weight:900;color:#3f2b20;line-height:1.8}
+    .signpost{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);width:160px;height:88px;opacity:.72}
+    .signpost span{position:absolute;left:30px;height:18px;background:#b8793c;border-radius:5px;box-shadow:inset 0 -4px rgba(0,0,0,.12)}
+    .signpost span:nth-child(1){top:0;width:110px}.signpost span:nth-child(2){top:28px;width:90px}.signpost span:nth-child(3){top:56px;width:120px}.signpost:after{content:"";position:absolute;left:76px;top:0;width:12px;height:88px;background:#9c642f;border-radius:6px}
+    .orb{position:absolute;border-radius:999px;filter:blur(.1px);opacity:.72;animation:drift 9s ease-in-out infinite alternate;z-index:1}
+    .orb.o1{width:210px;height:210px;background:#ff9d74;left:5%;top:18%}.orb.o2{width:120px;height:120px;background:#d7c17a;right:11%;top:28%;animation-delay:-2s}.orb.o3{width:80px;height:80px;background:#c99047;left:16%;bottom:18%;animation-delay:-4s}.orb.o4{width:120px;height:120px;background:#b78f99;right:6%;bottom:15%;animation-delay:-3s}
+    .road{position:absolute;left:50%;bottom:-18%;width:56vw;height:78vh;transform:translateX(-50%);opacity:.25;border-radius:50% 50% 0 0;background:linear-gradient(90deg,transparent 0 34%,#fff 34% 44%,transparent 44% 56%,#fff 56% 66%,transparent 66%)}
+    @keyframes floatBook{0%,100%{transform:rotateY(-14deg) rotateX(4deg) translateY(0)}50%{transform:rotateY(-8deg) rotateX(2deg) translateY(-18px)}}
+    @keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(30px,-28px,0) scale(1.08)}}
+    @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-book{min-height:430px}.book-card{height:450px}.book-title{font-size:2.6rem}.hero h1{font-size:clamp(3.4rem,16vw,6rem)}}
+    .reveal{opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform .8s ease}.reveal.show{opacity:1;transform:none}
+    .section-title{font-size:clamp(2.1rem,5vw,5rem);line-height:1.1;margin:0 0 20px;font-weight:950;letter-spacing:-.04em}.section-title span{color:var(--accent)}
+    .lead{font-size:1.12rem;line-height:2;color:var(--muted);font-weight:750;max-width:850px}
+    .feature-grid,.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:38px}
+    .feature,.portfolio-card,.skill-panel,.contact-card,.reader-shell{border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(18px);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .feature{padding:30px;min-height:220px;position:relative;overflow:hidden}.feature:after{content:"";position:absolute;width:130px;height:130px;border-radius:999px;background:rgba(199,123,59,.12);right:-50px;bottom:-50px}.feature .icon{font-size:2.2rem}.feature h3{font-size:1.55rem;margin:18px 0 10px}.feature p{color:var(--muted);line-height:1.85;font-weight:700}
+    @media(max-width:900px){.feature-grid,.card-grid{grid-template-columns:1fr}}
+    .timeline{margin-top:50px;position:relative;padding-left:26px}.timeline:before{content:"";position:absolute;left:8px;top:7px;bottom:7px;border-left:3px dashed var(--accent)}.time-item{display:grid;grid-template-columns:150px 1fr;gap:24px;margin:0 0 34px;position:relative}.time-item:before{content:"";position:absolute;left:-26px;top:6px;width:18px;height:18px;border-radius:999px;background:var(--accent);box-shadow:0 0 0 8px rgba(199,123,59,.12)}.time-num{font-size:1.2rem;font-weight:950;color:var(--accent)}.time-item h3{margin:0 0 8px;font-size:1.6rem}.time-item p{margin:0;color:var(--muted);line-height:1.8;font-weight:700}@media(max-width:700px){.time-item{grid-template-columns:1fr;gap:8px}}
+    .skills{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center}.skill-panel{padding:34px}.skill{margin:0 0 26px}.skill-top{display:flex;justify-content:space-between;margin-bottom:10px;font-weight:900}.bar{height:14px;border-radius:999px;background:rgba(127,92,57,.18);overflow:hidden}.bar span{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1.3s ease}.skill-panel.show .bar span{width:var(--value)}.big-number{font-size:clamp(4rem,12vw,8rem);font-weight:950;color:var(--accent);line-height:1}.number-caption{font-size:1.2rem;line-height:1.8;color:var(--muted);font-weight:800}@media(max-width:900px){.skills{grid-template-columns:1fr}}
+    .reader-shell{padding:24px;margin-top:36px;overflow:hidden}.reader-tools{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}.tool-left,.tool-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.select,input[type="search"]{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:12px 16px;outline:none}.select{max-width:280px}input[type="search"]{width:min(330px,100%)}.reader-btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:12px 16px;cursor:pointer;font-weight:900;transition:.2s}.reader-btn:hover{background:rgba(199,123,59,.15);transform:translateY(-2px)}
+    .book-stage{min-height:640px;display:grid;place-items:center;padding:26px;border-radius:28px;background:radial-gradient(circle at 50% 10%,rgba(255,255,255,.5),transparent 34%),linear-gradient(135deg,rgba(199,123,59,.08),rgba(255,255,255,.18));position:relative;overflow:hidden}.book-stage:before{content:"";position:absolute;inset:0;background-image:linear-gradient(90deg,transparent 49.8%,rgba(47,32,23,.10) 50%,transparent 50.2%);pointer-events:none}.book-spread{width:min(980px,100%);min-height:560px;display:grid;grid-template-columns:1fr 1fr;gap:0;perspective:1400px;filter:drop-shadow(0 30px 40px rgba(47,32,23,.17))}.page{position:relative;background:linear-gradient(135deg,var(--paper),var(--paper2));border:1px solid rgba(130,94,58,.22);padding:42px 42px 60px;min-height:560px;overflow:hidden;transition:transform .45s ease,opacity .45s ease}.page.left{border-radius:28px 0 0 28px;transform-origin:right center}.page.right{border-radius:0 28px 28px 0;transform-origin:left center}.page:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.07),transparent 14%,transparent 85%,rgba(0,0,0,.035))}.page h3{font-size:clamp(1.55rem,2.5vw,2.65rem);margin:0 0 16px;line-height:1.25}.page .tag{display:inline-block;padding:7px 12px;border-radius:999px;background:rgba(199,123,59,.14);color:var(--accent);font-weight:950;margin-bottom:18px}.page p,.page li{font-size:var(--reader-size,1.08rem);line-height:2.05;font-weight:720;color:var(--ink)}.page ul{padding-left:1.2em}.page-no{position:absolute;bottom:22px;color:var(--muted);font-size:.92rem;font-weight:800}.page.left .page-no{left:42px}.page.right .page-no{right:42px}.page.fade{animation:flip .42s ease}@keyframes flip{0%{opacity:.2;transform:rotateY(8deg) scale(.98)}100%{opacity:1;transform:none}}.progress{height:10px;border-radius:999px;background:rgba(127,92,57,.18);overflow:hidden;margin-top:16px}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.3s}.page-info{text-align:center;color:var(--muted);font-weight:900;margin-top:10px}.search-results{font-weight:900;color:var(--accent);margin:10px 0 0}.highlight{background:rgba(255,215,96,.5);border-radius:4px;padding:0 2px}@media(max-width:760px){.reader-shell{padding:14px}.book-stage{padding:12px;min-height:520px}.book-spread{grid-template-columns:1fr;min-height:auto}.page.left{display:none}.page.right{border-radius:22px;min-height:520px;padding:28px 24px 54px}.book-stage:before{display:none}}
+    .portfolio-card{padding:26px;min-height:240px;position:relative;overflow:hidden;transition:.25s}.portfolio-card:hover{transform:translateY(-8px)}.portfolio-card .pill{display:inline-block;background:rgba(199,123,59,.15);color:var(--accent);padding:8px 12px;border-radius:999px;font-weight:950}.portfolio-card h3{font-size:1.75rem;margin:22px 0 10px}.portfolio-card p{line-height:1.85;color:var(--muted);font-weight:750}.portfolio-card:after{content:attr(data-symbol);position:absolute;right:18px;bottom:8px;font-size:5rem;opacity:.14}
+    .contact-card{padding:32px;margin-top:32px}.contact-form{display:grid;grid-template-columns:1fr 1fr;gap:16px}.contact-form label{font-weight:950}.contact-form input,.contact-form textarea{width:100%;margin-top:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:20px;padding:14px 16px;outline:none}.contact-form textarea{min-height:150px;resize:vertical}.full{grid-column:1/-1}@media(max-width:760px){.contact-form{grid-template-columns:1fr}}
+    footer{padding:36px 22px 60px;text-align:center;color:var(--muted);font-weight:800}.top-btn{position:fixed;right:18px;bottom:18px;width:54px;height:54px;border-radius:999px;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(12px);display:grid;place-items:center;box-shadow:0 12px 32px rgba(0,0,0,.12);z-index:999}
+  </style>
 </head>
-<body id="top">
-<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="cursor" id="cursor"></div>
-<nav class="nav" id="nav">
-  <a class="brand" href="#top"><span class="logo">初</span><span>初級大人指南書</span></a>
-  <button class="menuBtn" id="menuBtn">選單</button>
-  <div class="links">
-    <a href="#about">關於</a><a href="#highlights">亮點</a><a href="#route">路線</a><a href="#reader">閱讀</a><a href="#contact">聯絡</a>
-    <button class="theme" id="themeBtn" title="切換深淺色">🌙</button>
-  </div>
-</nav>
-<header class="hero">
-  <div class="heroText reveal">
-    <div class="kicker">生活技能｜租屋權益與防禦指南</div>
-    <h1 class="title">初級<br>大人指南書</h1>
-    <div class="type" id="typeText">寫給剛出發的你</div>
-    <p class="lead">從看屋、簽約、設備點交到租客權益，陪你把第一次獨立生活變成一場有準備的升級任務。</p>
-    <div class="ctaRow"><a class="btn primary" href="#reader">📖 開始閱讀</a><a class="btn" href="#route">探索章節</a></div>
-  </div>
-  <div class="bookMock reveal">
-    <div class="sticker s1">🏠 租屋避坑</div><div class="sticker s2">🛡️ 權益防禦</div><div class="sticker s3">✨ 初級大人</div>
-    <div class="book"><h2>生活<br>防禦力</h2><p>願每一位初級大人，都能住得安心，也活得踏實。</p></div>
-  </div>
-</header>
-<main>
-<section id="about" class="section reveal">
-  <h2 class="sectionTitle">寫給第一次踏進大人世界的你</h2>
-  <p class="sub">這本電子書以溫暖的大地色與治癒感敘事，整理租屋新手最容易忽略的細節：網路篩選、現場查看、契約攻防、押金電費、提前解約與人身安全。</p>
-  <div class="grid">
-    <article class="card"><div class="icon">🧭</div><h3>可操作</h3><p>不是只講大道理，而是整理成能立刻帶去看房、簽約與點交的行動清單。</p></article>
-    <article class="card"><div class="icon">🤝</div><h3>有共鳴</h3><p>從「沒人教我們怎麼做」出發，陪伴剛離家、剛工作、剛開始獨立生活的人。</p></article>
-    <article class="card"><div class="icon">🛡️</div><h3>能防禦</h3><p>把法律條款、房東推託、詐騙手法轉換成容易理解的判斷方式。</p></article>
-  </div>
-</section>
-<section id="highlights" class="section reveal">
-  <h2 class="sectionTitle">互動亮點</h2>
-  <p class="sub">把原本的 40 頁內容整理成網頁閱讀動線，讓老師打開網址後能直接滑動、搜尋、翻頁與跳轉。</p>
-  <div class="grid">
-    <article class="card"><h3>Hero 動畫</h3><p>柔和背景、漂浮標籤、打字機標語，建立電子書的第一印象。</p></article>
-    <article class="card"><h3>章節卡片</h3><p>用卡片呈現初級大人、看屋、簽約、權益等重點，適合快速瀏覽。</p></article>
-    <article class="card"><h3>全文翻閱</h3><p>40 頁文字已轉成 HTML 內容，可用目錄跳頁、前後翻頁與關鍵字搜尋。</p></article>
-  </div>
-</section>
-<section id="route" class="section reveal">
-  <h2 class="sectionTitle">閱讀路線</h2>
-  <p class="sub">從初級大人的概念出發，最後進入租屋權益與防禦指南。</p>
-  <div class="timeline">
-    <div class="step" data-step="1"><h3>理解初級大人</h3><p>認識剛出發的新大人，理解焦慮、社會期待與生活技能解鎖。</p></div>
-    <div class="step" data-step="2"><h3>租屋問題發想</h3><p>從「為什麼住進去才發現處處是坑」開始建立結構性看房眼光。</p></div>
-    <div class="step" data-step="3"><h3>現場看屋</h3><p>使用五感搜查與黃金十字檢驗法，檢查安全、合法、水電與環境。</p></div>
-    <div class="step" data-step="4"><h3>簽約防線</h3><p>掌握押金上限、電費計價、報稅戶籍、設備點交與拍照存證。</p></div>
-    <div class="step" data-step="5"><h3>入住與退租</h3><p>釐清維修責任、提前解約、詐騙防範與看房人身安全。</p></div>
-  </div>
-</section>
-<section class="section reveal">
-  <h2 class="sectionTitle">大人技能條</h2>
-  <div class="skills">
-    <div class="skill"><b><span>租屋避坑力</span><span>95%</span></b><div class="bar"><span class="fill" data-w="95%"></span></div></div>
-    <div class="skill"><b><span>契約辨識力</span><span>90%</span></b><div class="bar"><span class="fill" data-w="90%"></span></div></div>
-    <div class="skill"><b><span>安全警覺力</span><span>92%</span></b><div class="bar"><span class="fill" data-w="92%"></span></div></div>
-    <div class="skill"><b><span>獨立生活力</span><span>88%</span></b><div class="bar"><span class="fill" data-w="88%"></span></div></div>
-  </div>
-</section>
-<section id="reader" class="reader reveal">
-  <div class="readerShell">
-    <div class="readerTop">
-      <div><h2 class="sectionTitle">電子書翻閱區</h2><p class="sub">選擇章節、搜尋關鍵字，或用上一頁／下一頁閱讀完整 40 頁內容。</p></div>
-      <div class="readerControls">
-        <select id="pageSelect" class="select" aria-label="選擇頁面"></select>
-        <button class="btn" id="bookmarkBtn">📌 記住頁面</button>
-        <button class="btn" id="backBookmarkBtn">回到書籤</button>
+<body data-theme="light">
+  <div class="noise"></div><div class="cursor" id="cursor"></div><div class="cursor-dot" id="cursorDot"></div>
+  <nav>
+    <a class="brand" href="#top"><span class="logo">書</span><span>初級大人指南書</span></a>
+    <div class="navlinks">
+      <a href="#idea">理念</a><a href="#timeline">流程</a><a href="#reader">翻閱</a><a href="#cards">卡片</a><a href="#contact">聯絡</a><button class="mode-btn" id="themeBtn">🌙</button>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="road"></div><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div>
+    <div class="hero-grid">
+      <div class="reveal show">
+        <div class="eyebrow">生活技能・租屋防禦・互動電子書</div>
+        <h1>初級<span class="small">大人指南書</span></h1>
+        <div class="type-line"><span id="typing"></span></div>
+        <p>寫給剛出發的你。這是一座可以翻頁的生活工具書，從租屋照騙、看房檢查、簽約條文到退租權益，陪你一步步建立大人的生活防禦力。</p>
+        <div class="hero-actions"><a class="btn" href="#reader">翻開電子書 →</a><a class="btn ghost" href="#idea">查看設計理念</a></div>
+      </div>
+      <div class="hero-book reveal show">
+        <div class="book-card">
+          <div class="book-title">初級<br>大人<br>指南書</div>
+          <div class="book-sub">生活技能：<br>租屋權益與防禦指南</div>
+          <div class="signpost"><span></span><span></span><span></span></div>
+        </div>
       </div>
     </div>
-    <div class="readerControls" style="margin-bottom:14px">
-      <input class="search" id="searchInput" placeholder="搜尋：押金、壁癌、租約、詐騙..." />
-      <button class="btn" id="searchBtn">搜尋</button>
-      <button class="btn" id="fontMinus">A-</button><button class="btn" id="fontPlus">A+</button>
-    </div>
-    <article class="pageCard" id="pageCard" aria-live="polite">
-      <aside class="pageMeta"><div class="pageNo" id="pageNo">1</div><span class="badge" id="chapterBadge">章節</span><h3 id="pageTitle">載入中</h3><p id="pageHint">使用下方按鈕翻閱。</p></aside>
-      <div class="pageText" id="pageText"><p>內容載入中。</p></div>
-    </article>
-    <div class="navPages"><button class="btn" id="prevBtn">← 上一頁</button><button class="btn primary" id="nextBtn">下一頁 →</button></div>
-    <div class="progress"><span id="progressBar"></span></div><div class="searchResults" id="searchResults"></div>
-  </div>
-</section>
-<section id="contact" class="section reveal">
-  <h2 class="sectionTitle">聯絡與回饋</h2>
-  <div class="contact">
-    <div class="card"><h3>給初級大人的一句話</h3><p>不要急著一次成為很厲害的大人。能知道要保護自己、能看懂契約、能為自己的生活做選擇，就已經正在前進。</p></div>
-    <form class="form" onsubmit="event.preventDefault();showToast('留言已記錄在本機示範表單');this.reset();"><input placeholder="姓名" required><input type="email" placeholder="Email" required><textarea placeholder="想給作者的話"></textarea><button class="btn primary" type="submit">送出留言</button></form>
-  </div>
-</section>
-</main>
-<footer class="footer">© 初級大人指南書｜互動電子書網站</footer>
-<div class="toast" id="toast">已完成</div>
+  </header>
+
+  <main>
+    <section class="section" id="idea">
+      <h2 class="section-title reveal">不是普通 PDF，<span>而是可以翻頁的電子書網站</span></h2>
+      <p class="lead reveal">本頁面以溫暖大地色、紙張質感、翻頁互動與導覽結構重製內容。保留工具書的清楚架構，也加入網站作品需要的互動效果，適合部署在 GitHub Pages 作為可分享作品。</p>
+      <div class="feature-grid">
+        <article class="feature reveal"><div class="icon">🌤️</div><h3>溫暖治癒</h3><p>用米色、咖啡色、金色營造像手帳與生活指南的閱讀氛圍。</p></article>
+        <article class="feature reveal"><div class="icon">📖</div><h3>互動翻頁</h3><p>支援上一頁、下一頁、章節選單、鍵盤方向鍵、搜尋與書籤。</p></article>
+        <article class="feature reveal"><div class="icon">🛡️</div><h3>租屋防禦</h3><p>把看屋、簽約、維修、退租等資訊整理成初級大人的行動指南。</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="timeline">
+      <h2 class="section-title reveal">閱讀<span>時間軸</span></h2>
+      <div class="timeline">
+        <div class="time-item reveal"><div class="time-num">01｜認識</div><div><h3>理解初級大人</h3><p>理解「會生活，但還需要確認」的成長狀態。</p></div></div>
+        <div class="time-item reveal"><div class="time-num">02｜觀察</div><div><h3>建立看屋眼光</h3><p>從線上篩選到現場五感搜查，學會看見房間背後的細節。</p></div></div>
+        <div class="time-item reveal"><div class="time-num">03｜契約</div><div><h3>看懂租約條文</h3><p>掌握押金、電費、報稅、戶籍與設備點交的法律防線。</p></div></div>
+        <div class="time-item reveal"><div class="time-num">04｜權益</div><div><h3>守護租客權益</h3><p>釐清自然老化、人為破壞、提前解約與退租責任。</p></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="skills">
+        <div class="reveal"><h2 class="section-title">初級大人<br><span>能力值</span></h2><p class="lead">滑到這裡後技能條會自動長出，象徵閱讀後慢慢解鎖生活能力。</p><div class="big-number">40</div><div class="number-caption">頁內容重新整理成網頁翻頁閱讀</div></div>
+        <div class="skill-panel reveal" id="skillPanel">
+          <div class="skill"><div class="skill-top"><span>租屋觀察力</span><span>92%</span></div><div class="bar"><span style="--value:92%"></span></div></div>
+          <div class="skill"><div class="skill-top"><span>契約辨識力</span><span>88%</span></div><div class="bar"><span style="--value:88%"></span></div></div>
+          <div class="skill"><div class="skill-top"><span>安全防禦力</span><span>95%</span></div><div class="bar"><span style="--value:95%"></span></div></div>
+          <div class="skill"><div class="skill-top"><span>獨立生活力</span><span>90%</span></div><div class="bar"><span style="--value:90%"></span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reader">
+      <h2 class="section-title reveal">電子書<span>翻閱區</span></h2>
+      <p class="lead reveal">可用左右鍵翻頁，也可點擊書頁左右兩側快速翻頁。這裡不是嵌入 PDF，而是將 40 頁內容轉成網頁文字閱讀。</p>
+      <div class="reader-shell reveal">
+        <div class="reader-tools">
+          <div class="tool-left"><select class="select" id="pageSelect"></select><button class="reader-btn" id="prevBtn">← 上一頁</button><button class="reader-btn" id="nextBtn">下一頁 →</button><button class="reader-btn" id="bookmarkBtn">📌 記住頁面</button><button class="reader-btn" id="goBookmarkBtn">回到書籤</button></div>
+          <div class="tool-right"><input type="search" id="searchInput" placeholder="搜尋：押金、壁癌、租約..."/><button class="reader-btn" id="searchBtn">搜尋</button><button class="reader-btn" id="fontMinus">A-</button><button class="reader-btn" id="fontPlus">A+</button></div>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+        <div class="book-stage"><div class="book-spread" id="bookSpread"></div></div>
+        <div class="progress"><span id="progressBar"></span></div><div class="page-info" id="pageInfo"></div>
+      </div>
+    </section>
+
+    <section class="section" id="cards">
+      <h2 class="section-title reveal">作品集<span>卡片</span></h2>
+      <div class="card-grid">
+        <article class="portfolio-card reveal" data-symbol="🏠"><span class="pill">線上篩選</span><h3>租屋照騙</h3><p>辨識修圖、廣角、低價詐騙與文案潛台詞。</p></article>
+        <article class="portfolio-card reveal" data-symbol="🔍"><span class="pill">現場看屋</span><h3>五感搜查</h3><p>用視覺、聽覺、嗅覺、觸覺完成實地檢查。</p></article>
+        <article class="portfolio-card reveal" data-symbol="📄"><span class="pill">租賃契約</span><h3>法律防線</h3><p>看懂押金、電費、報稅、戶籍與點交清單。</p></article>
+        <article class="portfolio-card reveal" data-symbol="🧰"><span class="pill">租客權益</span><h3>維修責任</h3><p>釐清自然老化、人為破壞、提前解約與退租押金。</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <h2 class="section-title reveal">聯絡<span>表單</span></h2>
+      <p class="lead reveal">此表單為 GitHub Pages 可用的前端表單示範，送出後會自動整理成郵件內容。可在程式碼中搜尋 CONTACT_EMAIL 改成你的信箱。</p>
+      <div class="contact-card reveal"><form class="contact-form" id="contactForm"><label>姓名<input id="name" required placeholder="你的姓名"></label><label>Email<input id="email" type="email" required placeholder="your@email.com"></label><label class="full">留言<textarea id="message" required placeholder="想說的話..."></textarea></label><div class="full"><button class="btn" type="submit">送出留言</button></div></form></div>
+    </section>
+  </main>
+  <a class="top-btn" href="#top">↑</a><footer>《初級大人指南書》互動電子書網站｜GitHub Pages Ready</footer>
+
 <script>
-document.documentElement.classList.add('js');
-const BOOK_PAGES = [{"no": 1, "title": "封面｜初級大人指南書", "lines": ["初", "級", "大人指南書", "寫給剛出發的你~要如何當上一位初級大人呢?", "生活技能：", "租屋權益與防禦指南", "生活技能：", "租屋權益與防禦指南"], "chapter": "概念與企劃"}, {"no": 2, "title": "封面｜作者小巧思", "lines": ["色調：溫暖的大地色", "VS", "一般的工具書（正色）", "溫暖治癒風格", "封面", "作者小巧思", "字體：筆觸溫和舒適", "vs", "一般的工具書（板正）", "字體", "字體字體", "字體", "小插畫：", "作家 游豐豪", "擅長 手繪 創作", "內文：", "以馬斯洛的需求理論，", "作為基礎發想章節，顧", "及物質外在層面與心靈", "層面"], "chapter": "概念與企劃"}, {"no": 3, "title": "特色亮點｜馬斯洛需求理論", "lines": ["物質外在：", "生活機能/金錢管理", "保險業務/打工需知", "心靈內在：", "人際關係", "情緒管理", "特色亮點", "作者小巧思", "馬斯洛需求理論"], "chapter": "概念與企劃"}, {"no": 4, "title": "書籍簡介", "lines": ["書籍簡介", "延伸發展層面", "作品層面", "系統化", "共鳴性", "實用性", "1.工作訪與講座", "2.社群內容", "3.系列書籍", "書籍"], "chapter": "概念與企劃"}, {"no": 5, "title": "引言｜創作核心與動機", "lines": ["引言", "創作核心與動機", "書名｜初級大人指南書", "主題核心", "可操作的生活能力", "心理與自我管理能力", "人際與社會交流能力", "主題動機", "差異比較", "沒人教我們怎麼做", "過來人與自身經歷", "這個世代的新大人", "一般說明書的差異", "非說教方式的思考", "調色差異與感受"], "chapter": "概念與企劃"}, {"no": 6, "title": "看點｜章節構思排版", "lines": ["前言｜這個時代的「新」大人", "第一章｜金錢管理 有理才有財", "第二章｜生活機能 租房作戰大補帖", "第三章｜保險項目 有個朋友正試圖賣我保險", "第四章｜打工需知 知己知彼的工作守則", "第五章｜人際關係 大學之後，人際不重要?", "第六章｜情緒管理 遇到壓力如何迎刃而解?", "結尾｜能做到這樣，已經很棒了！", "看點", "章節構思排版", "自我故事的經歷", "問題發想發掘", "自我的解法", "差異化分析", "他人的解法", "如果做成這樣，有人會買嗎OWO", "生活機能", "自我層面", "知識化科普"], "chapter": "概念與企劃"}, {"no": 7, "title": "初級大人｜你是誰？", "lines": ["初級大人文章的討論量?", "初級大人指的是什麼?", "起源於哪裡?", "從2026年1月1日至4月7日，", "「初級大人、高級大人」相關", "討論聲量已達39,557筆，2025", "年下半年，相關討論僅45筆。", "已經長大也具備基本生活能力，", "但遇到報稅、保險、家中維修、", "拜拜流程或臨場判斷等情況，仍", "會下意識想找更資深的人確認，", "自己比較像是「會生活，但還不", "負責拍板」的角色。", "#你是初級大人還是高級大人？Threads爆紅流行語由來、自我檢測表一次看｜熱門話題｜網路溫度計 DailyView", "初級、中級、高級大人的差別其實不在於年紀，而是在於當下的情境以及個人的生活經驗。", "初級大人", "你是誰？"], "chapter": "概念與企劃"}, {"no": 8, "title": "初級大人｜你是哪一級？", "lines": ["初級大人", "你是哪一級？", "初級大人梗圖", "大人階級自我評量表", "初級大人檢核表"], "chapter": "概念與企劃"}, {"no": 9, "title": "初級大人｜就是你！", "lines": ["# 社交恐懼者", "# 社會新鮮人與畢業生", "# 脫離人生規劃者", "不懂如何租房簽約、不知道", "勞健保怎麼扣、第一次領薪", "水卻不知如何理財。", "包括剛離婚、剛結束長期同", "居，或是從原本穩定的環境", "中（家族企業）跳出來獨自", "生活的人，屬於隱藏受眾。", "溝通不再是單純的聊天，而", "是一場資源交換與個人界線", "守護的方式。", "由於初級大人是較新的詞彙，並普遍流傳於年輕人之間，", "因此這本書最主要的受眾設定為18~25歲的人。", "初級大人", "就是你！"], "chapter": "概念與企劃"}, {"no": 10, "title": "初級大人｜我們一起越級打怪", "lines": ["被迫長大", "未知的焦慮感", "社會期待", "沒有人教你", "技能解鎖", "金錢管理", "獨立生活", "保險項目", "打工須知", "人際關係", "情緒管理", "太理論", "太碎片", "有共鳴", "執行性高", "初級大人", "我們一起越級打怪！"], "chapter": "概念與企劃"}, {"no": 11, "title": "第二章｜生活機能篇：問題發想", "lines": ["問題發想", "缺乏「結構性看房」的眼光。", "為什麼我們在簽約前都覺得房間很美，", "住進去才發現處處是坑？", "第二章－生活機能篇", "租屋指南"], "chapter": "生活機能・租屋指南"}, {"no": 12, "title": "第二章｜自我故事的經歷", "lines": ["那是你使用不當，", "要自己找水電。", "第二章－生活機能篇", "自我故事的經歷", "上大學後我正式離家開始租屋，剛滿兩", "週，浴室卻湧出黑水，面對毀損，房東冷", "漠推託，對租屋權益的無知，讓我體會到", "租屋知識是守護居住尊嚴的唯一防線，不", "能讓自己於租賃空間淪為「外人」，要成", "功學習找出一處屬於自己的港灣。", "上大學後我正式離家開始租屋，剛滿兩", "週，浴室卻湧出黑水，面對毀損，房東冷", "漠推託，對租屋權益的無知，讓我體會到", "租屋知識是守護居住尊嚴的唯一防線，不", "能讓自己於租賃空間淪為「外人」，要成", "功學習找出一處屬於自己的港灣。", "租屋指南"], "chapter": "生活機能・租屋指南"}, {"no": 13, "title": "第二章｜租屋權益與防禦指南 前言", "lines": ["當你拿到大學錄取通知，或是收到第一份工作的錄取信，這代表著", "你即將邁向獨立的「大人世界」。而成為大人的第一項成年禮，往", "往就是「租屋」。", "租屋，不只是付錢換取一個睡覺的地方，更是你人生中接觸到的第", "一個大型法律契約。學校的課本從來不教我們怎麼看懂房屋所有權", "狀、怎麼算電費、或是東西壞了該叫誰修。一紙不平等的合約，輕", "則讓你損失數萬元押金，重則將你捲入長期的法律糾紛，甚至危及", "人身安全。", "本章將化身為你的「租屋防護盾」，從看屋的蛛絲馬跡、合約條款", "的法律攻防，到退租時的點交技巧，全方位建立你的租屋防禦力。", "第二章 租屋權益與防禦指南 前言"], "chapter": "生活機能・租屋指南"}, {"no": 14, "title": "第二章｜架構", "lines": ["架構", "本章透過自身經歷與彙整了各大社群平台", "上，無數租屋族的血淚經驗與精華討論，", "為你整理出這份最接地氣的「租屋避坑指", "南」。從看屋前的線上篩選、現場實地大", "搜查，到簽約時的心理戰，幫你自動過濾", "掉 90% 的租屋地雷！", "第二章－生活機能篇", "租屋指南"], "chapter": "生活機能・租屋指南"}, {"no": 15, "title": "生活機能｜租屋避坑指南", "lines": ["租屋避坑指南」", "生活機能", "線上篩選", "租屋指南", "現場實地大搜查", "租賃契約攻防戰", "租客權益與責任"], "chapter": "生活機能・租屋指南"}, {"no": 16, "title": "線上篩選｜租屋照騙 1", "lines": ["網路上看起來像網美咖啡廳的房間，背後可能藏著讓你崩潰的秘密", "避坑 1：過度修圖與廣角鏡頭 如果照片看起來明亮得像有聖光，", "且房間大到可以跳芭雷，請保持警惕。這通常是極度廣角加上修圖", "的結果，現場看往往窄小且採光昏暗。", "避坑 2：街景地圖先走一遍 在約看屋前，先用 Google Maps 的", "街景功能看一下周邊環境。有些物件雖然房間漂亮，但一樓是熱炒", "店、宮廟，或是位於極度狹窄、連機車都難進去的暗巷，街景功能", "可以幫你提早過濾。", "租屋照騙", "線上篩選"], "chapter": "生活機能・租屋指南"}, {"no": 17, "title": "線上篩選｜租屋照騙 2", "lines": ["網路上看起來像網美咖啡廳的房間，背後可能藏著讓你崩潰的秘密", "避坑 3：注意文案的「潛台詞」", "「獨立洗曬」 → 有可能只是在窗外掛個鐵窗讓你晾衣服，甚至洗衣機", "在走道。", "「微型極簡風」 → 通常代表房間空間「極小」，小到連行李箱都打不", "開。", "「生活機能便利，下樓就是夜市」 → 意味著你每晚都要忍受油煙、蟑", "螂與半夜的嘈雜聲。", "租屋照騙", "線上篩選"], "chapter": "生活機能・租屋指南"}, {"no": 18, "title": "線上篩選｜租屋照騙 3", "lines": ["網路上看起來像網美咖啡廳的房間，背後可能藏著讓你崩潰的秘密", "4.頂樓加蓋/地下室： 頂加夏天熱到電費暴增，且多為違建、消防", "極差；地下室則是一年四季潮濕且容易有蟲蟻鼠患。這兩種物件再", "便宜都不建議租。", "5.低於市場行情的精美物件： 如果地段極好、裝潢極美、租金卻", "便宜得不可思議，通常 99% 是詐騙（要求你先匯定金才能看", "屋），或是傳說中的「事故屋（凶宅）」。", "租屋照騙", "線上篩選"], "chapter": "生活機能・租屋指南"}, {"no": 19, "title": "第一節｜現場看屋：五感搜查", "lines": ["現場看屋絕對不要只聽房東或仲介說話，你要自己主動去摸、去聽、去聞。", "1. 視覺：看角落與天花板", "仔細盯著窗框周圍、浴室外牆、天花板角落。如果油漆有重新補刷的痕", "跡，或是摸起來潮濕、有泡泡狀（壁癌），這間房子 100% 漏水，住進", "去包準你衣服發霉、過敏狂咳。", "檢查冷氣機濾網與排水管，有些冷氣冷媒漏水，房東只會在你來看屋時", "開強冷掩蓋。", "2. 聽覺：隔音差是失眠的開始", "「水泥隔音」不等於「真的隔音」： 敲敲看與隔壁鄰居相連的牆壁。如", "果是空心的聲音（輕隔間），隔壁講電話、打傳說對決、甚至清喉嚨的", "聲音你都會聽得一清二楚。", "第一節 現場看屋：化身偵探的「五感搜查」"], "chapter": "生活機能・租屋指南"}, {"no": 20, "title": "第一節｜現場看屋：五感搜查延伸", "lines": ["現場看屋絕對不要只聽房東或仲介說話，你要自己主動去摸、去聽、去聞。", "1. 視覺：看角落與天花板", "仔細盯著窗框周圍、浴室外牆、天花板角落。如果油漆有重新補刷的痕", "跡，或是摸起來潮濕、有泡泡狀（壁癌），這間房子 100% 漏水，住進", "去包準你衣服發霉、過敏狂咳。", "檢查冷氣機濾網與排水管，有些冷氣冷媒漏水，房東只會在你來看屋時", "開強冷掩蓋。", "2. 聽覺：隔音差是失眠的開始", "「水泥隔音」不等於「真的隔音」： 敲敲看與隔壁鄰居相連的牆壁。如", "果是空心的聲音（輕隔間），隔壁講電話、打傳說對決、甚至清喉嚨的", "聲音你都會聽得一清二楚。", "第一節 現場看屋：化身偵探的「五感搜查」"], "chapter": "生活機能・租屋指南"}, {"no": 21, "title": "第一節｜五感搜查：日夜雙迴訪", "lines": ["一定要「日夜雙迴訪」： 白天看採光，晚上 8:00~10:00 務必再去大樓", "附近繞一下。這段時間鄰居都回家了，最能看出隔壁是不是惡鄰居、有", "沒有人會在陽台抽菸讓菸味飄進來、大樓垃圾集中處是不是臭氣熏天。", "3. 嗅覺：聞水管與通風", "走進浴室，聞聞看排水孔有沒有沼氣或嚴重的煙味。很多舊大樓的管道", "間相通，只要樓下在廁所抽菸，你的浴室就會變成吸菸區。", "4. 觸覺：設備不只是用來看的", "每個水龍頭都打開，轉到最熱，測看看水壓夠不夠大、熱水要等多久。", "如果洗個澡水壓像老人尿尿，冬天會生不如死。", "馬桶按按看，連續沖兩次，確認排水順暢。", "第一節 現場看屋：化身偵探的「五感搜查」"], "chapter": "生活機能・租屋指南"}, {"no": 22, "title": "第一節｜黃金十字檢驗法：消防與逃生", "lines": ["1. 消防與逃生安全（重中之重）", "雙向逃生動線： 確認該樓層是否有兩個不同方向的逃生出口。走道、樓", "梯間是否堆放雜物、機車，導致阻礙通行？", "消防設備： 滅火器是否在有效期限內？壓力指針是否在綠色安全區？", "住宅用火災警報器（住警器）： 房間內與公共走道是否安裝內政部消防", "署認證的住警器？這在火災發生時是決定生死的關鍵。", "熱水器安裝位置： 熱水器若為燃氣（瓦斯）式，必須安裝於室外通風良", "好處。若安裝於室內或加裝窗戶的陽台，則必須具備「強制排氣（FE", "式）」管線，以防範一氧化碳中毒。", "第一節 現場看屋：「黃金十字檢驗法」"], "chapter": "生活機能・租屋指南"}, {"no": 23, "title": "第一節｜黃金十字檢驗法：建物合法性", "lines": ["2. 建物合法性（拒絕灰色地帶）", "嚴禁頂樓加蓋與暗房改建： 頂樓加蓋（頂加）多屬違章建築，不僅夏天", "如同火爐、冬天極度寒冷，且結構多為鐵皮材質，火災時極易塌陷且無", "處可逃。", "確認房屋產權： 看屋滿意後、下定金前，有權要求房東出示「房屋所有", "權狀」或「房屋稅單」，核對身分證確認對方是否為「真房東」。", "若是二房東轉租，簽約前務必確認對方有「原房東的轉租授權書」，否", "則原房東一旦跳出來不認帳，你可能會被趕出去且拿不回押金。", "第一節 現場看屋：「黃金十字檢驗法」"], "chapter": "生活機能・租屋指南"}, {"no": 24, "title": "第一節｜黃金十字檢驗法：水電與機電", "lines": ["3. 水電與機電設施（細節決定生活品質）", "水壓與排水測試： 打開浴室與廚房的所有水龍頭，測試出水量與水壓。", "將馬桶連續沖水兩次，確認排水順暢、無異味回湧。", "壁癌與漏水痕跡： 仔細觀察牆角、天花板、窗框周圍是否有油漆剝落、", "起泡（壁癌）或水漬。這代表房屋有漏水問題，住進去後衣物與呼吸道", "極易受損。", "第一節 現場看屋：「黃金十字檢驗法」"], "chapter": "生活機能・租屋指南"}, {"no": 25, "title": "第一節｜黃金十字檢驗法：環境與治安", "lines": ["4. 環境與治安（日夜雙迴訪）", "白天看採光與結構： 白天看屋能確認房間的自然採光是否充足、通風是", "否良好。", "深夜看治安與噪音： 強烈建議在晚上 9 點到 11 點之間再次前往該租屋", "處周邊。觀察巷弄照明是否明亮、是否有路口監視器、周邊是否有夜間", "噪音（如鄰近夜市、酒吧、或工廠），以及有無可疑人士逗留。", "第一節 現場看屋：「黃金十字檢驗法」"], "chapter": "生活機能・租屋指南"}, {"no": 26, "title": "第二節｜簽約・租賃契約關鍵條文", "lines": ["當你決定簽約時，請記住全台灣所有住宅租約的最高法律指導原則：", "內政部頒布之《住宅租賃定型化契約應記載及不得記載事項》。", "房東自訂的合約條款如果違反這項規定，該條款自動「宣告無效」！", "到了簽約階段，請收起你的不好意思，法律只保護看得懂字的人。", "以下是簽約時，你絕對不能退讓的四大法律防線：", "1. 押金上限、2. 電費計價上限、3. 報稅與戶籍登記、4. 設備點交清單與拍照存", "證", "第二節 簽約・房屋租賃契約關鍵條文"], "chapter": "生活機能・租屋指南"}, {"no": 27, "title": "第二節｜押金與電費", "lines": ["1. 押金上限(繳納押金之前雙方需書面簽約寫下押（訂）金金額）", "依據現行《租賃住宅市場發展及管理條例》，押金最高不得超過「2個月租金」。", "任何要求收取 3 個月以上押金，或是外加其他名目保證金的行為，皆屬違法。", "2. 電費計價上限", "許多分租套房的房東會直接喊價「全年每度電 6 元或 7 元」，從中賺取價差。", "最新法律規範： 房東在合約中約定的電費計價，不得超過台灣電力公司所規", "定的「當月用電最高級距每度金額」。 注意請算清「隱藏版電費」！", "帳單透明化： 建議優先選擇「台電台水獨立帳單」的房子，自己拿帳單去超", "商繳，房東完全沒有上下其手的空間。。", "第二節 簽約・房屋租賃契約關鍵條文"], "chapter": "生活機能・租屋指南"}, {"no": 28, "title": "第二節｜報稅與戶籍登記", "lines": ["3. 報稅與戶籍登記（不可剝奪的權利）", "合約中如果出現以下條款，一律無效：", "「禁止房客申報租金扣除額（報稅）」", "「禁止房客遷入戶籍」", "「若因房客報稅導致房東增加稅賦，該衍生稅金由房客負擔」 這些都是定型", "化契約明令「不得記載」的事項。房客報稅與遷戶籍是法律賦予的權利，不", "需經過房東同意。", "第二節 簽約・房屋租賃契約關鍵條文"], "chapter": "生活機能・租屋指南"}, {"no": 29, "title": "第二節｜設備點交清單與拍照存證", "lines": ["4. 設備點交清單與拍照存證", "簽約時，合約後方通常附有設備清單。", "搬進去的第一天，不要急著整理行李，先拿手機把空屋的每一個角落、牆壁的刮", "痕、地板的污漬、家具的現況全部「拍照並錄影存證」，將照片發給房東或雙方", "在通訊軟體中確認，這樣退租時，房東就絕對無法用「你弄壞家具」為藉口扣你", "的押金。拿回全額押金的最強護身符。", "第二節 簽約・房屋租賃契約關鍵條文"], "chapter": "生活機能・租屋指南"}, {"no": 30, "title": "第三節｜租客的權益與責任", "lines": ["住進去之後，真正考驗大人危機處理能力的時刻才開始。", "最常見的糾紛莫過於「東西壞了誰負責？」以及", "「計劃趕不上變化，必須提早搬走怎麼辦？」。", "第三節 租客的權益與責任"], "chapter": "生活機能・租屋指南"}, {"no": 31, "title": "第三節｜維修責任：房東負責", "lines": ["1. 維修責任：自然老化 vs 人為破壞", "房東負責： 房屋結構（如漏水、牆壁龜裂）以及房屋附屬設備因「自然老", "化、正常使用」而損壞時（如冷氣因機件老舊不冷、熱水器自然故障、燈具", "線路老化），一律由房東承擔修繕費用。", "網路上最常見的糾紛就是：「冷氣壞了房東叫我自己出錢修」，簽約時必須", "註明：房屋結構與附屬設備（冷氣、冰箱、熱水器等）非人為故意損壞，一", "律由房東負責修繕與出資。 如果房東推託，請直接踩煞車不簽。", "第三節 租客的權益與責任"], "chapter": "生活機能・租屋指南"}, {"no": 32, "title": "第三節｜維修責任：房客職責", "lines": ["1. 維修責任：自然老化 vs 人為破壞", "房客職責： 房客有「及時通知」的義務。如果發現漏水卻隱瞞不報，導致損", "害擴大，房客需負賠償責任。若房客通知後，房東在合理期限內不予理賠修", "繕，房客得自行僱工維修，並從次月租金中扣除維修費用（需保留正式發票", "與收據）。", "人為破壞： 若是因為房客使用不當（如寵物抓壞沙發、惡意打破玻璃、將異", "物丟入馬桶導致阻塞），則由房客自行負責維修費用。", "第三節 租客的權益與責任"], "chapter": "生活機能・租屋指南"}, {"no": 33, "title": "第三節｜提前解約責任劃分", "lines": ["合約中清楚紀錄雙方勾選的是「得任意終止租約」或「不得任意終止租約」", "合約約定條款", "解約條件與通知期限", "違約金法律限制", "得任意終止租約", "不得任意終止租約", "必須在 1 個月前 告知房東", "（書面或通訊軟體）", "因個人因素（如工作轉", "換、休學）想提早搬離", "完全免賠償違約金，房", "東必須全額退還押金。", "房東最高僅能收 1 個月", "租金作為違約金上限。", "超收部分違法，且房東", "必須在扣除 1 個月違約", "金後，退還剩餘押金", "第三節 租客的權益與責任－提前解約責任劃分"], "chapter": "生活機能・租屋指南"}, {"no": 34, "title": "第三節｜法定無條件解約", "lines": ["在合約中，必須看清楚雙方勾選的是「得任意終止租約」或「不得任意終止租", "約」：", "合約約定條款", "解約條件與通知期限", "違約金法律限制", "法定無條件解約", "遇到法定特殊事由", "（如房屋結構安全受損、", "因疾病需長期療養等）", "完全免賠償違約金，且可立即", "解約，房東需全額退還押金", "第三節 租客的權益與責任－提前解約責任劃分"], "chapter": "生活機能・租屋指南"}, {"no": 35, "title": "實戰落地｜簽約前必對清單", "lines": ["實戰落地：新手租屋簽約前必對清單", "身分核對：已確認過房東的身分證，且與房屋所有權狀（或房屋稅單）上的名字", "完全相符。", "押金確認：押金總額精準為 2 個月租金，沒有超收。", "電費條款：契約明訂之電費計價方式符合台電規範，且載明夏月與非夏月的不同", "計費。", "終止條款：已明確看清合約是「得任意終止」或「不得任意終止」，並確認違約", "金最高不超過 1 個月。", "特約檢查：合約中絕對沒有出現「禁止報稅」、「禁止申報租金補貼」或「禁止", "遷入戶籍」等違法字眼。", "影像存證：已在房東陪同下完成空屋設備點交，並已將所有家具、牆面、水電現", "況拍照錄影，且雙方皆保留一份備份。"], "chapter": "生活機能・租屋指南"}, {"no": 36, "title": "編者小叮嚀｜常見租屋詐騙", "lines": ["請把最貼心的叮嚀放進心裡：", "⚠️ 聰明識破！常見的租屋詐騙手法", "初入社會的「初級大人」常成為詐騙集團眼中的肥羊。請務必記住，網路上那", "些「地段極好、裝潢美如網美店、租金卻便宜得不可思議」的物件，背後往往", "藏著陷阱。最常見的詐騙手法就是：「看房前先匯定金」。詐騙者會編造「看", "房的人很多，先匯款才能排第一順位看房」、「人在國外不方便，先匯押金再", "寄鑰匙」等藉口。請把這條鐵律刻在腦海裡：在還沒有親眼看到房子、核對房", "東身分證件，最重要的是還沒正式簽約前，絕對不要給出任何一毛錢！", "恭喜你，讀完了第二章！"], "chapter": "編者小叮嚀與結尾"}, {"no": 37, "title": "編者小叮嚀｜看房人身安全守則", "lines": ["🛡️ 安全第一！看房的人身安全守則", "出外看房，除了看環境，更要保護自己的人身安全。看房的時間盡量選擇白天，", "並在赴約前將看房的時間、地點、房東電話發給家人或朋友。最重要的是，看房", "時請盡量結伴同行，尤其是女性朋友。找同學、朋友或家人陪同，不僅能互相照", "應、避免單獨與陌生人處於密閉空間的風險，身邊多一雙眼睛，也能幫你看出房", "間裡容易被忽略的死角、採光與壁癌。", "編者小叮嚀"], "chapter": "編者小叮嚀與結尾"}, {"no": 38, "title": "編者小叮嚀｜輕鬆前行", "lines": ["💡 輕鬆前行，你擁有試錯的勇氣", "成為大人的第一步，就是「學會保護自己」。租屋契約是一份具備法律效力的文", "件，絕對不要因為不好意思、或是房東催促，就在沒有看清條文的情況下簽字。", "第一次獨立生活，難免會感到焦慮，害怕自己挑錯房子、害怕遇到壞房東。但請", "抱持輕鬆愉快的心情出發吧！在邁向成熟的路上，「試錯」也是一種珍貴的超能", "力。即使真的不小心踩到了一點小坑、或是住進去才發現鄰居很雷，你都已經掌", "握了法律工具，有能力去解決、談判、甚至提早解約。每一次的經驗，都是你羽", "翼漸豐的養分。", "編者小叮嚀"], "chapter": "編者小叮嚀與結尾"}, {"no": 39, "title": "編者小叮嚀｜夢中情房", "lines": ["🏠 千萬別著急，夢中情房就在不遠處", "找房子就像談戀愛，需要一點緣分，「千萬別著急！」多看看多比較，只要你善", "用本章的防禦指南，保持警覺、不急躁，讓你的獨立生活有一個安心、合法且安", "全的起點，你一定能夠在重重篩選中，找到那間專屬於你的「夢中情房」。", "祝福每一位初級大人，在獨立的第一站，都能住得平安，住得健康！", "展開屬於你的精彩生活吧！", "編者小叮嚀"], "chapter": "編者小叮嚀與結尾"}, {"no": 40, "title": "結尾祝福", "lines": ["結尾祝福", "理解迷茫", "面對困難", "核心祝福", "所以我們想把這本書送", "給每一個正在『初級大", "人』階段的你，不要緊", "張、不要害怕，那些很", "厲害的高級大人們也是", "這樣走過來的！我們陪", "你一起往前進！", "所以我們想把這本書送", "給每一個正在『初級大", "人』階段的你，不要緊", "張、不要害怕，那些很", "厲害的高級大人們也是", "這樣走過來的！我們陪", "你一起往前進！", "但當我們面對這些人生中", "各式各樣、大大小小的困", "難，一步步地去學習怎麼", "樣解決、怎麼樣去面對的", "時候，我們正在慢慢的成", "為可靠的初級大人，並且", "往高級大人打怪升級中！", "但當我們面對這些人生中", "各式各樣、大大小小的困", "難，一步步地去學習怎麼", "樣解決、怎麼樣去面對的", "時候，我們正在慢慢的成", "為可靠的初級大人，並且", "往高級大人打怪升級中！", "小時候的我們總認為一", "滿18歲就可以成為大", "人，大人就可以做到很", "多事情，但當你真的到", "了這個年紀的時候，卻", "發現並不是這樣！", "小時候的我們總認為一", "滿18歲就可以成為大", "人，大人就可以做到很", "多事情，但當你真的到", "了這個年紀的時候，卻", "發現並不是這樣！"], "chapter": "編者小叮嚀與結尾"}];
-const pageSelect=document.getElementById('pageSelect'), pageNo=document.getElementById('pageNo'), pageTitle=document.getElementById('pageTitle'), pageText=document.getElementById('pageText'), chapterBadge=document.getElementById('chapterBadge'), pageHint=document.getElementById('pageHint'), progressBar=document.getElementById('progressBar'), searchResults=document.getElementById('searchResults');
-let current=Number(localStorage.getItem('currentPage')||0), fontSize=Number(localStorage.getItem('readerFont')||1.18);
-function escapeHTML(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
-function emphasize(s){return escapeHTML(s).replace(/(押金|電費|壁癌|詐騙|安全|契約|房東|房客|報稅|戶籍|設備|解約|修繕|租屋|看屋|消防)/g,'<span class="em">$1</span>');}
-function renderPage(index){
-  current=Math.max(0,Math.min(BOOK_PAGES.length-1,index));
-  const p=BOOK_PAGES[current];
-  pageNo.textContent=p.no; pageTitle.textContent=p.title; chapterBadge.textContent=p.chapter; pageHint.textContent='第 '+p.no+' / '+BOOK_PAGES.length+' 頁';
-  pageText.style.setProperty('--reader-font', fontSize+'rem');
-  const lines=p.lines && p.lines.length ? p.lines : ['本頁為視覺頁，請使用目錄繼續閱讀。'];
-  pageText.innerHTML=lines.map((l,i)=>'<p>'+emphasize(l)+'</p>').join('');
-  pageSelect.value=String(current); progressBar.style.width=((current+1)/BOOK_PAGES.length*100)+'%';
-  localStorage.setItem('currentPage',String(current));
-}
-BOOK_PAGES.forEach((p,i)=>{const opt=document.createElement('option');opt.value=i;opt.textContent=String(p.no).padStart(2,'0')+'｜'+p.title;pageSelect.appendChild(opt);});
-document.getElementById('prevBtn').onclick=()=>renderPage(current-1);document.getElementById('nextBtn').onclick=()=>renderPage(current+1);pageSelect.onchange=e=>renderPage(Number(e.target.value));
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')renderPage(current+1);if(e.key==='ArrowLeft')renderPage(current-1);});
-document.getElementById('bookmarkBtn').onclick=()=>{localStorage.setItem('bookmarkPage',String(current));showToast('已記住第 '+(current+1)+' 頁');};
-document.getElementById('backBookmarkBtn').onclick=()=>{const b=localStorage.getItem('bookmarkPage');if(b!==null)renderPage(Number(b));else showToast('還沒有書籤');};
-document.getElementById('fontPlus').onclick=()=>{fontSize=Math.min(1.7,fontSize+.08);localStorage.setItem('readerFont',fontSize);renderPage(current);};
-document.getElementById('fontMinus').onclick=()=>{fontSize=Math.max(.95,fontSize-.08);localStorage.setItem('readerFont',fontSize);renderPage(current);};
-document.getElementById('searchBtn').onclick=()=>searchBook();document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')searchBook();});
-function searchBook(){const q=document.getElementById('searchInput').value.trim(); if(!q){searchResults.textContent='請輸入關鍵字。';return;} const hits=BOOK_PAGES.map((p,i)=>({i,p})).filter(x=>(x.p.title+' '+x.p.lines.join(' ')).includes(q)); if(!hits.length){searchResults.textContent='沒有找到「'+q+'」。';return;} searchResults.innerHTML='找到 '+hits.length+' 頁： '+hits.slice(0,8).map(h=>'<button class="btn" style="padding:8px 12px;margin:4px" onclick="renderPage('+h.i+')">第 '+h.p.no+' 頁</button>').join(''); renderPage(hits[0].i);}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
-const words=['寫給剛出發的你','看懂租約，守護自己的生活','一起升級成可靠的大人'];let wi=0,ci=0,del=false;const typeEl=document.getElementById('typeText');function typeLoop(){const w=words[wi];typeEl.textContent=w.slice(0,ci)+(ci%2?'':''); if(!del&&ci<w.length)ci++;else if(!del){del=true;setTimeout(typeLoop,900);return}else if(ci>0)ci--;else{del=false;wi=(wi+1)%words.length} setTimeout(typeLoop,del?45:80)} typeLoop();
-document.getElementById('themeBtn').onclick=()=>{const dark=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',dark?'light':'dark');localStorage.setItem('theme',dark?'light':'dark');document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';};
-const savedTheme=localStorage.getItem('theme'); if(savedTheme)document.documentElement.setAttribute('data-theme',savedTheme);
-document.getElementById('menuBtn').onclick=()=>document.getElementById('nav').classList.toggle('open');
-const cursor=document.getElementById('cursor');document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';});
-const io=new IntersectionObserver(entries=>{entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');en.target.querySelectorAll('.fill').forEach(f=>f.style.width=f.dataset.w||'80%');}})},{threshold:.14});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-renderPage(current);
+const BOOK=[
+{t:'封面｜初級大人指南書',tag:'生活技能',c:['寫給剛出發的你～要如何當上一位初級大人呢？','本書主題為「生活技能：租屋權益與防禦指南」，以溫暖大地色與手寫感風格，陪伴初次獨立生活的人學會保護自己。']},
+{t:'封面｜作者小巧思',tag:'設計理念',c:['色調採用溫暖的大地色，不走一般工具書的正色調，而是以溫暖、治癒、舒服的視覺語言降低讀者焦慮。','字體以筆觸溫和舒適為主，搭配小插畫與生活感元素，讓工具書也能像陪伴型手帳。']},
+{t:'特色亮點｜馬斯洛需求理論',tag:'作者小巧思',c:['內文以馬斯洛需求理論作為章節發想基礎，兼顧物質外在層面與心靈內在層面。','物質外在包含生活機能、金錢管理、保險業務、打工需知；心靈內在包含人際關係與情緒管理。']},
+{t:'書籍簡介',tag:'作品定位',c:['作品層面強調系統化、共鳴性與實用性。','延伸發展層面可發展為工作坊與講座、社群內容、系列書籍，讓知識不只停留在書本，而能被讀者真正使用。']},
+{t:'引言｜創作核心與動機',tag:'核心',c:['書名：初級大人指南書。','主題核心包含可操作的生活能力、心理與自我管理能力、人際與社會交流能力。','創作動機來自「沒人教我們怎麼做」、過來人與自身經歷，以及這個世代的新大人所面對的生活斷層。']},
+{t:'看點｜章節構思排版',tag:'目錄',c:['前言｜這個時代的「新」大人','第一章｜金錢管理 有理才有財','第二章｜生活機能 租房作戰大補帖','第三章｜保險項目 有個朋友正試圖賣我保險','第四章｜打工需知 知己知彼的工作守則','第五章｜人際關係 大學之後，人際不重要？','第六章｜情緒管理 遇到壓力如何迎刃而解？','結尾｜能做到這樣，已經很棒了！']},
+{t:'初級大人｜你是誰？',tag:'概念',c:['初級大人指的是：已經長大也具備基本生活能力，但遇到報稅、保險、家中維修、拜拜流程或臨場判斷等情況，仍會下意識想找更資深的人確認。','初級、中級、高級大人的差別不在於年紀，而在於當下情境以及個人的生活經驗。']},
+{t:'初級大人｜你是哪一級？',tag:'自我評量',c:['大人階級自我評量表、初級大人檢核表與初級大人梗圖，都在提醒我們：成為大人不是年齡到了就會，而是透過一件件生活任務慢慢練習。']},
+{t:'初級大人｜就是你！',tag:'讀者設定',c:['主要受眾設定為18～25歲的人，包括社會新鮮人與畢業生、脫離人生規劃者、社交恐懼者。','他們可能不懂如何租房簽約、不知道勞健保怎麼扣，或第一次領薪水卻不知道如何理財。']},
+{t:'我們一起越級打怪！',tag:'問題與解法',c:['初級大人的焦慮可能來自被迫長大、未知感、社會期待，以及「沒有人教你」。','本書想把金錢管理、獨立生活、保險項目、打工須知、人際關係、情緒管理等技能變成可執行、有共鳴的生活指南。']},
+{t:'第二章｜生活機能篇 租屋指南',tag:'問題發想',c:['為什麼我們在簽約前都覺得房間很美，住進去才發現處處是坑？','核心問題是：缺乏「結構性看房」的眼光。']},
+{t:'第二章｜自我故事的經歷',tag:'故事',c:['上大學後正式離家開始租屋，剛滿兩週，浴室卻湧出黑水。面對毀損，房東冷漠推託，對租屋權益的無知，讓我體會到租屋知識是守護居住尊嚴的唯一防線。','不能讓自己在租賃空間淪為「外人」，要成功學習找出一處屬於自己的港灣。']},
+{t:'第二章｜租屋權益與防禦指南 前言',tag:'前言',c:['當你拿到大學錄取通知，或收到第一份工作的錄取信，代表你即將邁向獨立的「大人世界」。而成為大人的第一項成年禮，往往就是租屋。','租屋不只是付錢換取一個睡覺的地方，更是人生中接觸到的第一個大型法律契約。','本章將化身為你的「租屋防護盾」，從看屋蛛絲馬跡、合約條款法律攻防，到退租點交技巧，全方位建立租屋防禦力。']},
+{t:'第二章｜架構',tag:'租屋指南',c:['本章透過自身經歷與彙整各大社群平台上無數租屋族的血淚經驗與精華討論，整理出最接地氣的租屋避坑指南。','從看屋前的線上篩選、現場實地大搜查，到簽約時的心理戰，幫你自動過濾掉90%的租屋地雷。']},
+{t:'生活機能｜租屋避坑指南',tag:'架構',c:['線上篩選','現場實地大搜查','租賃契約攻防戰','租客權益與責任']},
+{t:'線上篩選｜租屋照騙 1',tag:'避坑',c:['網路上看起來像網美咖啡廳的房間，背後可能藏著讓你崩潰的秘密。','避坑1：過度修圖與廣角鏡頭。照片如果亮得像有聖光，房間大到可以跳芭蕾，請保持警惕。這通常是極度廣角加上修圖的結果，現場往往窄小且採光昏暗。','避坑2：街景地圖先走一遍。約看屋前，先用街景功能看周邊環境，提前過濾熱炒店、宮廟、暗巷等可能影響生活的因素。']},
+{t:'線上篩選｜租屋照騙 2',tag:'潛台詞',c:['避坑3：注意文案的「潛台詞」。','「獨立洗曬」有可能只是在窗外掛鐵窗晾衣服，甚至洗衣機在走道。','「微型極簡風」通常代表房間空間極小。','「生活機能便利，下樓就是夜市」可能意味著每晚要忍受油煙、蟑螂與半夜噪音。']},
+{t:'線上篩選｜租屋照騙 3',tag:'警訊',c:['避坑4：頂樓加蓋或地下室。頂加夏天熱到電費暴增，且多為違建、消防極差；地下室一年四季潮濕，容易有蟲蟻鼠患。','避坑5：低於市場行情的精美物件。若地段好、裝潢美、租金卻便宜得不可思議，通常可能是詐騙或高風險物件。']},
+{t:'第一節｜現場看屋：五感搜查 1',tag:'現場看屋',c:['現場看屋不要只聽房東或仲介說話，你要自己主動去摸、去聽、去聞。','視覺：看角落與天花板，檢查窗框、浴室外牆、天花板角落是否有重新補刷、潮濕、起泡或壁癌痕跡。','聽覺：隔音差是失眠的開始。敲敲看與鄰居相連的牆壁，如果是空心聲，隔壁聲音可能聽得一清二楚。']},
+{t:'第一節｜現場看屋：五感搜查 2',tag:'現場看屋',c:['一定要日夜雙迴訪：白天看採光，晚上8:00～10:00到大樓附近繞一圈，觀察鄰居作息、菸味、垃圾集中處與夜間噪音。','嗅覺：走進浴室，聞排水孔是否有沼氣或嚴重煙味。','觸覺：每個水龍頭都打開，轉到最熱，測水壓與熱水速度；馬桶連續沖兩次，確認排水順暢。']},
+{t:'第一節｜黃金十字檢驗法：消防安全',tag:'安全',c:['消防與逃生安全是重中之重。','雙向逃生動線：確認樓層是否有兩個不同方向的逃生出口，走道與樓梯間是否堆放雜物阻礙通行。','消防設備：確認滅火器是否在有效期限內、壓力指針是否在安全區。','熱水器安裝位置：燃氣熱水器必須在室外通風良好處，若在室內或加窗陽台，需要具備強制排氣管線。']},
+{t:'第一節｜黃金十字檢驗法：建物合法性',tag:'合法性',c:['嚴禁頂樓加蓋與暗房改建。頂樓加蓋多屬違章建築，不僅環境不佳，火災時也可能更難逃生。','確認房屋產權：看屋滿意後、下定金前，有權要求房東出示房屋所有權狀或房屋稅單，核對身分是否為真房東。','若是二房東轉租，簽約前務必確認對方有原房東的轉租授權書。']},
+{t:'第一節｜黃金十字檢驗法：水電與機電',tag:'生活品質',c:['水壓與排水測試：打開浴室與廚房所有水龍頭，測試出水量與水壓；將馬桶連續沖水兩次，確認排水順暢、無異味回湧。','壁癌與漏水痕跡：觀察牆角、天花板、窗框周圍是否有油漆剝落、起泡或水漬，這代表房屋可能有漏水問題。']},
+{t:'第一節｜黃金十字檢驗法：環境與治安',tag:'日夜雙迴訪',c:['白天看採光與結構：確認房間自然採光是否充足、通風是否良好。','深夜看治安與噪音：建議晚上9點到11點再次前往租屋處周邊，觀察巷弄照明、路口監視器、夜間噪音與可疑人士逗留。']},
+{t:'第二節｜簽約・租賃契約關鍵條文',tag:'簽約',c:['當你決定簽約時，請記住住宅租約有定型化契約應記載與不得記載事項。','房東自訂的合約條款如果違反規定，該條款可能無效。','簽約階段請收起不好意思，法律只保護看得懂字的人。四大法律防線：押金上限、電費計價上限、報稅與戶籍登記、設備點交清單與拍照存證。']},
+{t:'第二節｜押金與電費',tag:'法律防線',c:['押金上限：押金最高不得超過2個月租金，要求3個月以上押金或其他名目保證金的行為不合理且具風險。','電費計價上限：分租套房常見房東自行喊價，簽約時要確認電費計價方式是否符合規範。','建議優先選擇台電台水獨立帳單的房子，帳單透明化可以降低爭議。']},
+{t:'第二節｜報稅與戶籍登記',tag:'不可剝奪的權利',c:['合約中如果出現「禁止房客申報租金扣除額」、「禁止房客遷入戶籍」、「若因房客報稅導致房東增加稅賦，該衍生稅金由房客負擔」等條款，應提高警覺。','房客報稅與遷戶籍是法律賦予的權利，不應被不合理剝奪。']},
+{t:'第二節｜設備點交與拍照存證',tag:'押金護身符',c:['簽約時，合約後方通常附有設備清單。','搬進去第一天，不要急著整理行李，先把空屋每個角落、牆面刮痕、地板污漬、家具現況全部拍照並錄影存證。','將照片發給房東或雙方在通訊軟體確認，退租時才不容易被用「你弄壞家具」為由扣押金。']},
+{t:'第三節｜租客的權益與責任',tag:'入住後',c:['住進去之後，真正考驗大人危機處理能力的時刻才開始。','最常見的糾紛是：東西壞了誰負責？以及計畫趕不上變化，必須提早搬走怎麼辦？']},
+{t:'第三節｜維修責任 1',tag:'自然老化 vs 人為破壞',c:['房東負責：房屋結構如漏水、牆壁龜裂，以及附屬設備因自然老化、正常使用而損壞時，通常應由房東承擔修繕費用。','常見糾紛是冷氣壞了房東叫房客自己修。簽約時應註明房屋結構與附屬設備非人為故意損壞，由房東負責修繕與出資。']},
+{t:'第三節｜維修責任 2',tag:'房客職責',c:['房客有及時通知的義務。如果發現漏水卻隱瞞不報，導致損害擴大，房客可能需負責。','若房客通知後，房東在合理期限內不處理，房客可保留正式發票與收據，再依規定處理維修費用。','人為破壞如寵物抓壞沙發、惡意打破玻璃、將異物丟入馬桶導致阻塞，則由房客自行負責。']},
+{t:'第三節｜提前解約責任劃分 1',tag:'解約',c:['合約中要看清楚雙方勾選的是「得任意終止租約」或「不得任意終止租約」。','若得任意終止租約，需依約定提前通知房東。','若不得任意終止租約，因個人因素想提前搬離，房東通常只能依約定收取合理違約金。']},
+{t:'第三節｜提前解約責任劃分 2',tag:'特殊事由',c:['遇到法定特殊事由，例如房屋結構安全受損、因疾病需長期療養等，可能可以立即解約並免賠償違約金。','簽約時請把終止租約條款看清楚，避免日後因不了解規定而吃虧。']},
+{t:'實戰落地｜新手租屋簽約前必對清單',tag:'清單',c:['身分核對：確認房東身分證與房屋所有權狀或房屋稅單上的名字相符。','押金確認：押金總額不超過2個月租金。','電費條款：契約明訂電費計價方式，並載明夏月與非夏月不同計費。','終止條款：看清合約是得任意終止或不得任意終止。','特約檢查：合約中沒有禁止報稅、禁止申報租金補貼或禁止遷入戶籍等違法字眼。','影像存證：完成空屋設備點交並拍照錄影，雙方保留備份。']},
+{t:'恭喜你讀完第二章｜租屋詐騙提醒',tag:'小叮嚀',c:['初入社會的初級大人常成為詐騙集團眼中的肥羊。','請務必記住：地段極好、裝潢美、租金卻便宜得不可思議的物件，背後往往藏著陷阱。','常見詐騙手法是看房前先匯定金。請把鐵律刻在腦海裡：沒有親眼看到房子、核對房東身分、正式簽約前，不要給出任何一毛錢。']},
+{t:'編者小叮嚀｜看房人身安全守則',tag:'安全第一',c:['出外看房除了看環境，更要保護自己的人身安全。','看房時間盡量選擇白天，並在赴約前把看房時間、地點、房東電話發給家人或朋友。','看房時請盡量結伴同行，尤其是女性朋友。身邊多一雙眼睛，也能幫你看出房間裡容易被忽略的死角、採光與壁癌。']},
+{t:'編者小叮嚀｜輕鬆前行',tag:'試錯的勇氣',c:['成為大人的第一步，就是學會保護自己。租屋契約是具備法律效力的文件，不要因為不好意思或房東催促，就在沒有看清條文的情況下簽字。','第一次獨立生活難免焦慮，但請抱持輕鬆愉快的心情出發。在邁向成熟的路上，試錯也是一種珍貴的超能力。']},
+{t:'編者小叮嚀｜夢中情房就在不遠處',tag:'祝福',c:['找房子就像談戀愛，需要一點緣分，千萬別著急。','多看看多比較，只要善用本章防禦指南，保持警覺、不急躁，讓獨立生活有安心、合法且安全的起點，就能在重重篩選中找到專屬於你的夢中情房。','祝福每一位初級大人，在獨立的第一站，都能住得平安，住得健康！']},
+{t:'結尾祝福',tag:'理解迷茫・面對困難・核心祝福',c:['小時候的我們總認為一滿18歲就可以成為大人，大人就可以做到很多事情，但到了這個年紀，才發現並不是這樣。','當我們面對人生中各式各樣的困難，一步步學習解決與面對時，我們正在慢慢成為可靠的初級大人，並且往高級大人打怪升級中。','所以我們想把這本書送給每一個正在初級大人階段的你：不要緊張、不要害怕，那些很厲害的高級大人們也是這樣走過來的，我們陪你一起往前進！']}
+];
+let current=Number(localStorage.getItem('ebook-page')||0);let font=Number(localStorage.getItem('ebook-font')||108);const spread=document.getElementById('bookSpread'),select=document.getElementById('pageSelect'),info=document.getElementById('pageInfo'),progress=document.getElementById('progressBar'),results=document.getElementById('searchResults');
+function pageHTML(p,side){if(!p)return `<article class="page ${side}"><span class="tag">留白</span><h3>請繼續翻頁</h3><p>下一頁即將開始。</p></article>`;return `<article class="page ${side} fade"><span class="tag">${p.tag}</span><h3>${p.t}</h3>${p.c.map(x=>x.length<22&& !x.includes('：')?`<p>• ${x}</p>`:`<p>${x}</p>`).join('')}<div class="page-no">${BOOK.indexOf(p)+1} / ${BOOK.length}</div></article>`}
+function render(){current=Math.max(0,Math.min(current,BOOK.length-1));const leftIndex=window.innerWidth<760?current:(current%2===0?current:current-1);const rightIndex=window.innerWidth<760?null:leftIndex+1;document.documentElement.style.setProperty('--reader-size',font/100+'rem');spread.innerHTML=window.innerWidth<760?pageHTML(BOOK[current],'right'):pageHTML(BOOK[leftIndex],'left')+pageHTML(BOOK[rightIndex],'right');select.value=current;info.textContent=`第 ${current+1} / ${BOOK.length} 頁`;progress.style.width=((current+1)/BOOK.length*100)+'%';localStorage.setItem('ebook-page',current)}
+BOOK.forEach((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${String(i+1).padStart(2,'0')}｜${p.t}`;select.appendChild(o)});select.onchange=e=>{current=Number(e.target.value);render();document.getElementById('reader').scrollIntoView()};document.getElementById('prevBtn').onclick=()=>{current--;render()};document.getElementById('nextBtn').onclick=()=>{current++;render()};document.getElementById('bookmarkBtn').onclick=()=>{localStorage.setItem('ebook-bookmark',current);alert('已記住第 '+(current+1)+' 頁')};document.getElementById('goBookmarkBtn').onclick=()=>{current=Number(localStorage.getItem('ebook-bookmark')||0);render()};document.getElementById('fontMinus').onclick=()=>{font=Math.max(88,font-8);localStorage.setItem('ebook-font',font);render()};document.getElementById('fontPlus').onclick=()=>{font=Math.min(150,font+8);localStorage.setItem('ebook-font',font);render()};document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){current++;render()} if(e.key==='ArrowLeft'){current--;render()}});
+document.getElementById('searchBtn').onclick=()=>{const q=document.getElementById('searchInput').value.trim();if(!q){results.textContent='';return}const found=BOOK.map((p,i)=>({p,i,text:(p.t+' '+p.tag+' '+p.c.join(' '))})).filter(x=>x.text.includes(q));if(found.length){current=found[0].i;render();results.textContent=`找到 ${found.length} 筆，已跳到第 ${current+1} 頁。`}else{results.textContent='沒有找到相關內容。'}};
+window.addEventListener('resize',render);render();
+const typing=document.getElementById('typing');const lines=['租屋前先學會保護自己。','把生活技能變成可翻閱的網站。','給正在出發的初級大人。'];let li=0,ci=0,del=false;function type(){const s=lines[li];typing.textContent=s.slice(0,ci)+(ci%2?'':'▌');if(!del&&ci<s.length){ci++}else if(!del){del=true;setTimeout(type,1000);return}else if(ci>0){ci--}else{del=false;li=(li+1)%lines.length}setTimeout(type,del?45:85)}type();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show'); if(e.target.id==='skillPanel') e.target.classList.add('show')}}),{threshold:.14});document.querySelectorAll('.reveal,.skill-panel').forEach(el=>io.observe(el));
+const cursor=document.getElementById('cursor'),dot=document.getElementById('cursorDot');document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px'});document.querySelectorAll('a,button,.reader-page').forEach(el=>{el.addEventListener('mouseenter',()=>{cursor.style.width='72px';cursor.style.height='72px'});el.addEventListener('mouseleave',()=>{cursor.style.width='44px';cursor.style.height='44px'})});
+document.getElementById('themeBtn').onclick=()=>{const b=document.body;const dark=b.dataset.theme!=='dark';b.dataset.theme=dark?'dark':'light';document.getElementById('themeBtn').textContent=dark?'☀️':'🌙';localStorage.setItem('ebook-theme',b.dataset.theme)};const savedTheme=localStorage.getItem('ebook-theme');if(savedTheme){document.body.dataset.theme=savedTheme;document.getElementById('themeBtn').textContent=savedTheme==='dark'?'☀️':'🌙'}
+document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();const CONTACT_EMAIL='a0981620073@gmail.com';const subject=encodeURIComponent('初級大人指南書網站留言');const body=encodeURIComponent(`姓名：${name.value}\nEmail：${email.value}\n\n留言：\n${message.value}`);location.href=`mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`});
+if(window.gsap){gsap.from('.book-card',{duration:1.2,y:30,opacity:0,rotateY:-25,ease:'power3.out'});}
 </script>
 </body>
 </html>
